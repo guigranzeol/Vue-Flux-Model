@@ -192,7 +192,6 @@ export default {
         this.cpfCnpjLabel = "CPF";
         this.ieRg = "RG";
         this.CpfSize = 14
-
       }
     },
     toConvertData(data) {
