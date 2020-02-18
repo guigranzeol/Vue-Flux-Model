@@ -4,103 +4,82 @@
     <v-row>
       <v-col sm="2" cols="12">
         <v-text-field
-          color="amber darken-4"
           v-model="formData.cep"
           v-mask="'#####-###'"
-          :rules="cepRules"
+          :rules="rulesFunction('Cep', 8)"
           @keyup="searchCep()"
           label="CEP *"
-          required
         ></v-text-field>
-        <!-- <strong class="orange--text">{{ errors.cep }}</strong> -->
+        <strong class="orange--text">{{ errors.cep }}</strong>
       </v-col>
       <v-col sm="5" cols="12">
         <v-text-field
-          color="amber darken-4"
           v-model="formData.city"
-          :rules="cityRules"
+          :rules="rulesFunction('Cidade', 2)"
           label="Cidade *"
-          required
         ></v-text-field>
-        <!-- <strong class="orange--text">{{ errors.cidade }}</strong> -->
+        <strong class="orange--text">{{ errors.cidade }}</strong>
       </v-col>
       <v-col sm="2" cols="12">
         <v-autocomplete
           v-model="formData.state"
           :items="BrazilStates"
-          :rules="stateRules"
+          :rules="rulesFunction('Estado')"
           item-text="name"
           item-value="value"
           label="Estado"
           color="amber darken-4"
         ></v-autocomplete>
-        <!-- <strong class="orange--text">{{ errors.state }}</strong> -->
+        <strong class="orange--text">{{ errors.state }}</strong>
       </v-col>
       <v-col sm="3" cols="12">
         <v-text-field
-          color="amber darken-4"
           v-model="formData.neighborhood"
-          :rules="neighborhoodRules"
+          :rules="rulesFunction('Bairro', 2)"
           label="Bairro *"
-          required
         ></v-text-field>
-        <!-- <strong class="orange--text">{{ errors.neighborhood }}</strong> -->
+        <strong class="orange--text">{{ errors.neighborhood }}</strong>
       </v-col>
     </v-row>
     <v-row>
       <v-col sm="9" cols="12">
         <v-text-field
-          color="amber darken-4"
           v-model="formData.street"
-          :rules="streetRules"
+          :rules="rulesFunction('Rua')"
           label="Endereço *"
-          required
         ></v-text-field>
-        <!-- <strong class="orange--text">{{ errors.street }}</strong> -->
+        <strong class="orange--text">{{ errors.street }}</strong>
       </v-col>
       <v-col sm="3" cols="12">
         <v-text-field
-          color="amber darken-4"
           v-model="formData.number"
-          :rules="numberRules"
+          :rules="rulesFunction('Numero')"
           label="Numero *"
           type="number"
           required
         ></v-text-field>
-        <!-- <strong class="orange--text">{{ errors.number }}</strong> -->
+        <strong class="orange--text">{{ errors.number }}</strong>
       </v-col>
     </v-row>
-    <v-btn class="mr-3 save-btn">Salvar</v-btn>
-    <v-btn class="mr-3 cancel-btn" @click="setAdressDialog(false)"  >Fechar</v-btn>
+    <v-btn class="mr-3 save-btn" @click="saveAdress()">Salvar</v-btn>
+    <v-btn class="mr-3 cancel-btn" @click="setAdressDialog(false)">Fechar</v-btn>
   </span>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 import { mask } from "vue-the-mask";
+import { rulesValidationFunction } from "@/utils/rulesFunctions";
 
 export default {
   directives: { mask },
+    props: {
+    peopleId: Number
+  },
 
   data: function() {
     return {
-      stateRules: [
-        v => !!v || "Por favor insira um Estado",
-      ],
-      cepRules: [
-        v => !!v || "Por favor insira um CEP",
-        v => (v && v.length == 9) || "Por favor insira um CEP válido"
-      ],
-      numberRules: [
-        v => !!v || "Por favor insira um Numero",
-      ],
-      neighborhoodRules: [
-        v => !!v || "Por favor insira um Bairro",
-      ],
-      streetRules: [
-        v => !!v || "Por favor insira uma Rua",
-      ],
-      cityRules: [v => !!v || "Por favor insira um Cidade"]
+      
     };
   },
   computed: {
@@ -109,7 +88,21 @@ export default {
     ...mapState("Adress", ["errors"])
   },
   methods: {
-    ...mapActions("People", ["setAdressDialog"]),
+    ...mapActions("Adress", ["setAdressDialog"]),
+    ...mapActions("Adress", ["save"]),
+
+    rulesFunction(name, lengthNeed) {
+      return rulesValidationFunction(name, lengthNeed);
+    },
+
+    saveAdress(){
+      let data = {
+        people_id: this.peopleId,
+        ...this.formData
+      }
+      this.save(data)
+    },
+
     searchCep() {
       if (this.formData.cep.length == 9) {
         this.$viaCep.buscarCep(this.formData.cep).then(obj => {
@@ -125,5 +118,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

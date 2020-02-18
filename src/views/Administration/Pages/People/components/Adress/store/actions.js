@@ -1,38 +1,74 @@
 
-const defaultPath = '/people'
+const defaultPath = '/adress'
 const toastName = 'O Cliente'
-import {indexFunction, saveFunction, updateFunction, showFunction} from "@/utils/DefaultCrud/defaultsFunctions";
+import { indexFunction, updateFunction, showFunction } from "@/utils/DefaultCrud/defaultsFunctions";
+import axios from 'axios'
+import { baseApiUrl, catchError } from "@/global";
 
-const setList = ({ commit }) => {     
-  indexFunction(commit, defaultPath)
-} 
 
-const save = function({commit}, payload) {
-  saveFunction(commit, defaultPath, payload, `${toastName +' '+ payload.fantasy_name}`)
+const save = function ({ commit }, payload) {
+  axios.post(`${baseApiUrl + defaultPath}/save`, payload)
+    .then(res => {
+      if (res.data.status == 201) {
+        commit('SET_FORMDATA', '')
+        commit('SET_ERRORS', '')
+        commit('SET_ADRESSDIALOG', false)
+      } else {
+        commit('SET_ERRORS', res.data.errors)
+      }
+    })
+    .catch(e => {
+      catchError(e)
+    });
 }
 
-const update = function({commit}, payload) {
-  updateFunction(commit, defaultPath, payload, `${toastName +' '+ payload.fantasy_name}`)
+const setAdressDialog = function ({ commit }, value) {
+  commit('SET_ADRESSDIALOG', value)
 }
 
-const show = function({commit}, payload) {
+const cleanAdressList = function ({ commit }) {
+  commit('SET_LIST', '')
+}
+
+const cleanAdressItem = function ({ commit }) {
+  commit('SET_FORMDATA', '')
+}
+
+const setList = ({ commit }, people_id) => {
+  indexFunction(commit, defaultPath, `people_id=${people_id}`)
+}
+
+const show = function ({ commit }, payload) {
   showFunction(commit, defaultPath, payload)
 }
 
-const cleanErrors = function({commit}){
-  commit('SET_ERRORS', '') 
+
+
+
+
+
+
+
+const update = function ({ commit }, payload) {
+  updateFunction(commit, defaultPath, payload, `${toastName + ' ' + payload.fantasy_name}`)
 }
 
-const cleanItem = function({commit}){
-  commit('SET_FORMDATA', {company: true}) 
+const cleanErrors = function ({ commit }) {
+  commit('SET_ERRORS', '')
 }
 
 
-export default{
-    setList,
-    save, 
-    cleanErrors,
-    update,
-    show,
-    cleanItem,
+
+
+
+
+export default {
+  cleanAdressList,
+  setList,
+  save,
+  cleanErrors,
+  update,
+  show,
+  cleanAdressItem,
+  setAdressDialog
 }

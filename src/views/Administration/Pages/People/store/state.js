@@ -4,5 +4,4 @@ export default{
     formData:{
         company: true
     },
-    adressDialog: false
 }

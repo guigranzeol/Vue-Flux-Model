@@ -1,8 +1,8 @@
 export default{
     list: [],
     errors:[],
+    adressDialog: false,
     formData:{
-        city: ''
     },
     BrazilStates:[
         { value: "AC", name: "Acre" },

@@ -75,6 +75,9 @@
               </v-row>
             </v-col>
           </v-row>
+          <span v-if="formData.id">
+            <list-adress :peopleId='formData.id'></list-adress>
+          </span>
           <v-row>
             <v-col sm="3" cols="12">
               <p v-if="formData.updated_at">
@@ -103,15 +106,14 @@
             class="mr-4"
             @click="SaveUpdateWithMask('save')"
           >Salvar Usuario</v-btn>
-          <v-btn @click="setAdressDialog(true)" v-if="formData.id">Cadastrar Endereço</v-btn>
         </v-form>
       </span>
     </admin-blade>
 
     <v-row justify="center">
-      <v-dialog v-model="adressDialog" max-width='900px'>
+      <v-dialog v-model="adressDialog" max-width="900px">
         <v-card class="adress-card">
-          <form-adress></form-adress>
+          <form-adress :peopleId="formData.id"></form-adress>
         </v-card>
       </v-dialog>
     </v-row>
@@ -120,6 +122,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import listAdress from "@/views/Administration/Pages/People/components/Adress/listAdress";
 import formAdress from "@/views/Administration/Pages/People/components/Adress/formAdress";
 import AdminBlade from "@/views/Administration/Layouts/Blade";
 import { dateFormatDMA } from "@/utils/dateFunctions";
@@ -133,7 +136,8 @@ export default {
 
   components: {
     AdminBlade,
-    formAdress
+    formAdress,
+    listAdress
   },
   data: function() {
     return {
@@ -152,7 +156,7 @@ export default {
   computed: {
     ...mapState("People", ["errors"]),
     ...mapState("People", ["formData"]),
-    ...mapState("People", ["adressDialog"])
+    ...mapState("Adress", ["adressDialog"])
   },
   methods: {
     ...mapActions("People", ["save"]),
@@ -160,7 +164,8 @@ export default {
     ...mapActions("People", ["show"]),
     ...mapActions("People", ["cleanErrors"]),
     ...mapActions("People", ["cleanItem"]),
-    ...mapActions("People", ["setAdressDialog"]),
+    ...mapActions("Adress", ["cleanAdressItem"]),
+     ...mapActions("Adress", ["cleanAdressList"]),
 
     rulesFunction(name, lengthNeed) {
       return rulesValidationFunction(name, lengthNeed);
@@ -206,8 +211,10 @@ export default {
     }
   },
   destroyed() {
-    this.cleanErrors();
-    this.cleanItem();
+    this.cleanErrors()
+    this.cleanItem()
+    this.cleanAdressItem()
+    this.cleanAdressList()
   }
 };
 </script>

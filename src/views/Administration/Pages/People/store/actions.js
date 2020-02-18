@@ -1,10 +1,9 @@
 
 const defaultPath = '/people'
 const toastName = 'O Cliente'
-const msgCatchError = 'Algo Deu errado Tente Novamente'
 
 import axios from 'axios'
-import { baseApiUrl } from "@/global";
+import { baseApiUrl, catchError } from "@/global";
 import router from '@/router/index'
 
 import {indexFunction,  updateFunction, showFunction} from "@/utils/DefaultCrud/defaultsFunctions";
@@ -13,10 +12,6 @@ import {indexFunction,  updateFunction, showFunction} from "@/utils/DefaultCrud/
 const setList = ({ commit }) => {     
   indexFunction(commit, defaultPath)
 } 
-
-// const save = function({commit}, payload) {
-//   saveFunction(commit, defaultPath, payload, `${toastName +' '+ payload.fantasy_name}`)
-// }
 
 export const save  = function ({commit},  payload) {
   axios.post(`${baseApiUrl + defaultPath}/save`, payload)
@@ -35,7 +30,7 @@ export const save  = function ({commit},  payload) {
       }
     })
     .catch(e => {
-      alert(msgCatchError, e);
+      catchError(e);
     });
 }
 
@@ -55,9 +50,7 @@ const cleanItem = function({commit}){
   commit('SET_FORMDATA', {company: true}) 
 }
 
-const setAdressDialog = function({commit}, value){
-  commit('SET_ADRESSDIALOG', value) 
-}
+
 
 
 export default{
@@ -66,6 +59,5 @@ export default{
     cleanErrors,
     update,
     show,
-    cleanItem,
-    setAdressDialog
+    cleanItem
 }

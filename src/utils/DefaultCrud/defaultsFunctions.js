@@ -1,13 +1,14 @@
 import axios from 'axios'
-import { baseApiUrl } from "@/global";
+import { baseApiUrl, catchError } from "@/global";
 import router from '@/router/index'
-
-const msgCatchError = 'Algo Deu errado Tente Novamente'
 
 export const indexFunction = function (commit, defaultPath, payload) {
   axios.post(`${baseApiUrl + defaultPath}/index`, payload).then(res => {
     commit('SET_LIST', res.data)
   })
+  .catch(e => {
+    catchError(e)
+  });
 }
 
 
@@ -25,7 +26,7 @@ export const saveFunction = function (commit, defaultPath, payload, toast) {
       }
     })
     .catch(e => {
-      alert(msgCatchError, e);
+      catchError(e)
     });
 }
 
@@ -45,7 +46,7 @@ export const updateFunction = function (commit, defaultPath, payload, toast) {
       }
     })
     .catch(e => {
-      alert(`${msgCatchError + e}`);
+      catchError(e);
     });
 }
 
@@ -57,6 +58,6 @@ export const showFunction = function (commit, defaultPath, id) {
       return res.data[0]
     })
     .catch(e => {
-      alert(`${msgCatchError + e}`);
+      catchError(e);
     });
 }
