@@ -1,6 +1,6 @@
 <template>
   <span>
-    <admin-blade iconBtnTop='mdi-store' routeBtnTop='/people'>
+    <admin-blade iconBtnTop="mdi-store" routeBtnTop="/people">
       <span class="default-form-bg">
         <v-form class="mt-5 default-form" ref="form" v-model="valid">
           <h1 class="title-topo">Formulario de Cliente</h1>
@@ -89,16 +89,7 @@
               </p>
             </v-col>
           </v-row>
-          <span>
-            <v-row justify="center">
-              <v-dialog v-model="newAdress">
-                <v-card class="adress-card">
-                  <form-adress></form-adress>
-                  <v-btn @click="newAdress = false">Fechar</v-btn>
-                </v-card>
-              </v-dialog>
-            </v-row>
-          </span>
+          <span></span>
           <v-btn
             v-if="id"
             color="green darken-2 white--text"
@@ -112,10 +103,18 @@
             class="mr-4"
             @click="SaveUpdateWithMask('save')"
           >Salvar Usuario</v-btn>
-          <v-btn @click="newAdress = true" v-if="formData.id">Cadastrar Endereço</v-btn>
+          <v-btn @click="setAdressDialog(true)" v-if="formData.id">Cadastrar Endereço</v-btn>
         </v-form>
       </span>
     </admin-blade>
+
+    <v-row justify="center">
+      <v-dialog v-model="adressDialog" max-width='900px'>
+        <v-card class="adress-card">
+          <form-adress></form-adress>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </span>
 </template>
 
@@ -152,7 +151,8 @@ export default {
   },
   computed: {
     ...mapState("People", ["errors"]),
-    ...mapState("People", ["formData"])
+    ...mapState("People", ["formData"]),
+    ...mapState("People", ["adressDialog"])
   },
   methods: {
     ...mapActions("People", ["save"]),
@@ -160,6 +160,7 @@ export default {
     ...mapActions("People", ["show"]),
     ...mapActions("People", ["cleanErrors"]),
     ...mapActions("People", ["cleanItem"]),
+    ...mapActions("People", ["setAdressDialog"]),
 
     rulesFunction(name, lengthNeed) {
       return rulesValidationFunction(name, lengthNeed);
@@ -186,12 +187,12 @@ export default {
       if (value) {
         this.ieRg = "I. Estadual";
         this.cpfCnpjLabel = "CNPJ";
-        this.CpfSize = 18
+        this.CpfSize = 18;
       } else {
         this.formData.social_name = "";
         this.cpfCnpjLabel = "CPF";
         this.ieRg = "RG";
-        this.CpfSize = 14
+        this.CpfSize = 14;
       }
     },
     toConvertData(data) {
@@ -200,8 +201,8 @@ export default {
   },
   mounted() {
     if (this.id) {
-      this.show(this.id)
-      this.CpfSize = 11
+      this.show(this.id);
+      this.CpfSize = 11;
     }
   },
   destroyed() {

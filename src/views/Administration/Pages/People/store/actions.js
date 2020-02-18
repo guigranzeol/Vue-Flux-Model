@@ -55,6 +55,10 @@ const cleanItem = function({commit}){
   commit('SET_FORMDATA', {company: true}) 
 }
 
+const setAdressDialog = function({commit}, value){
+  commit('SET_ADRESSDIALOG', value) 
+}
+
 
 export default{
     setList,
@@ -63,4 +67,5 @@ export default{
     update,
     show,
     cleanItem,
+    setAdressDialog
 }

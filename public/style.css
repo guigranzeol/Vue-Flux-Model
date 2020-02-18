@@ -11,6 +11,16 @@
     color: black !important;
 }
 
+.save-btn{
+    background-color: green !important;
+    color: white !important;
+}
+
+.cancel-btn{
+    background-color:red !important;
+    color: white !important;
+}
+
 
 .title-topo{
     text-align: center;

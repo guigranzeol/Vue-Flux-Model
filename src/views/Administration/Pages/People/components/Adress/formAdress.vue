@@ -70,11 +70,13 @@
         <!-- <strong class="orange--text">{{ errors.number }}</strong> -->
       </v-col>
     </v-row>
+    <v-btn class="mr-3 save-btn">Salvar</v-btn>
+    <v-btn class="mr-3 cancel-btn" @click="setAdressDialog(false)"  >Fechar</v-btn>
   </span>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { mask } from "vue-the-mask";
 
 export default {
@@ -107,6 +109,7 @@ export default {
     ...mapState("Adress", ["errors"])
   },
   methods: {
+    ...mapActions("People", ["setAdressDialog"]),
     searchCep() {
       if (this.formData.cep.length == 9) {
         this.$viaCep.buscarCep(this.formData.cep).then(obj => {
