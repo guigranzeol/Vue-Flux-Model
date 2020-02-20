@@ -1,19 +1,28 @@
 <template>
   <span>
-    <admin-blade iconBtnTop='mdi-plus' routeBtnTop='/form-people'>
-      <h1 class="title-topo">Lista de Clientes</h1>  
+    <admin-blade iconBtnTop="mdi-plus" routeBtnTop="/form-people">
+      <h1 class="title-topo">Lista de Clientes</h1>
+
       <v-text-field class="default-search" v-model="search" label="Busca" single-line hide-details></v-text-field>
-      <v-data-table
-        class="default-table"
-        :headers="headers"
-        :items="list"
-        :search="search"
-        :footer-props="footer"
-      >
-        <template v-slot:item.action="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item.id)" title="Edit">mdi-pencil</v-icon>
-        </template>
-      </v-data-table>
+
+      <span v-if='!list[0]'>
+        <div class="d-flex justify-center align-center mt-5 spiner-default">
+          <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
+        </div>
+      </span>
+      <span v-else>
+        <v-data-table
+          class="default-table"
+          :headers="headers"
+          :items="list"
+          :search="search"
+          :footer-props="footer"
+        >
+          <template v-slot:item.action="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item.id)" title="Edit">mdi-pencil</v-icon>
+          </template>
+        </v-data-table>
+      </span>
     </admin-blade>
   </span>
 </template>

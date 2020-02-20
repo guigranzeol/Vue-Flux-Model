@@ -14,7 +14,17 @@ const save = function ({ commit }, payload) {
           "toastMsg",
            `Endereço cadastrado com Sucesso !!!`           
         );
-        commit('SET_FORMDATA', '')
+        commit('SET_FORMDATA',{
+          id: null,
+          street: null,
+          cep: null,
+          neighborhood: null,
+          city: null,
+          state: null,
+          active: null,
+          note: null,
+          people_id: null
+        })
         commit('SET_ERRORS', '')
         commit('SET_ADRESSDIALOG', false)
         setList({commit}, payload.people_id)
@@ -36,7 +46,17 @@ const update = function ({ commit }, payload) {
         "toastMsg",
          `Endereço atualizado com Sucesso !!!`           
       );
-      commit('SET_FORMDATA', '')
+      commit('SET_FORMDATA', {
+        id: null,
+        street: null,
+        cep: null,
+        neighborhood: null,
+        city: null,
+        state: null,
+        active: null,
+        note: null,
+        people_id: null
+      })
       commit('SET_ERRORS', '')
       commit('SET_ADRESSDIALOG', false)
       setList({commit}, payload.people_id)

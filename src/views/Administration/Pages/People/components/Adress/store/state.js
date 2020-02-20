@@ -3,6 +3,15 @@ export default{
     errors:[],
     adressDialog: false,
     formData:{
+      id: null,
+      street: null,
+      cep: null,
+      neighborhood: null,
+      city: null,
+      state: null,
+      active: null,
+      note: null,
+      people_id: null
     },
     BrazilStates:[
         { value: "AC", name: "Acre" },

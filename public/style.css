@@ -57,6 +57,10 @@
     
 }
 
+.spiner-default{
+    padding-top: 30vh;
+}
+
 /* Menor que Iphone 7 */
 @media only screen and (max-width: 700px) {
     /* .buttons-topo{

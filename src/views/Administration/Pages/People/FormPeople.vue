@@ -1,7 +1,12 @@
 <template>
   <span>
     <admin-blade iconBtnTop="mdi-store" routeBtnTop="/people">
-      <span class="default-form-bg">
+      <span v-if='id && !formData.id'>
+        <div class="d-flex justify-center align-center mt-5 spiner-default">
+          <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
+        </div>
+      </span>
+      <span v-else class="default-form-bg">
         <v-form class="mt-5 default-form" ref="form" v-model="valid">
           <h1 class="title-topo">Formulario de Cliente</h1>
           <v-row>
