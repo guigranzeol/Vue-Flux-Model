@@ -1,7 +1,7 @@
 
 const defaultPath = '/adress'
-const toastName = 'O Cliente'
-import { indexFunction, updateFunction, showFunction } from "@/utils/DefaultCrud/defaultsFunctions";
+import { toastAlert } from "@/utils/Alerts/toast";
+import { indexFunction, showFunction } from "@/utils/DefaultCrud/defaultsFunctions";
 import axios from 'axios'
 import { baseApiUrl, catchError } from "@/global";
 
@@ -10,9 +10,15 @@ const save = function ({ commit }, payload) {
   axios.post(`${baseApiUrl + defaultPath}/save`, payload)
     .then(res => {
       if (res.data.status == 201) {
+        sessionStorage.setItem(
+          "toastMsg",
+           `Endereço cadastrado com Sucesso !!!`           
+        );
         commit('SET_FORMDATA', '')
         commit('SET_ERRORS', '')
         commit('SET_ADRESSDIALOG', false)
+        setList({commit}, payload.people_id)
+        toastAlert('success')
       } else {
         commit('SET_ERRORS', res.data.errors)
       }
@@ -20,6 +26,28 @@ const save = function ({ commit }, payload) {
     .catch(e => {
       catchError(e)
     });
+}
+
+const update = function ({ commit }, payload) {
+  axios.post(`${baseApiUrl + defaultPath}/update`, payload)
+  .then(res => {
+    if (res.data.status == 202) {
+      sessionStorage.setItem(
+        "toastMsg",
+         `Endereço atualizado com Sucesso !!!`           
+      );
+      commit('SET_FORMDATA', '')
+      commit('SET_ERRORS', '')
+      commit('SET_ADRESSDIALOG', false)
+      setList({commit}, payload.people_id)
+      toastAlert('success')
+    } else {
+      commit('SET_ERRORS', res.data.errors)
+    }
+  })
+  .catch(e => {
+    catchError(e)
+  })
 }
 
 const setAdressDialog = function ({ commit }, value) {
@@ -31,7 +59,7 @@ const cleanAdressList = function ({ commit }) {
 }
 
 const cleanAdressItem = function ({ commit }) {
-  commit('SET_FORMDATA', '')
+  commit('SET_FORMDATA', {})
 }
 
 const setList = ({ commit }, people_id) => {
@@ -42,16 +70,11 @@ const show = function ({ commit }, payload) {
   showFunction(commit, defaultPath, payload)
 }
 
-
-
-
-
-
-
-
-const update = function ({ commit }, payload) {
-  updateFunction(commit, defaultPath, payload, `${toastName + ' ' + payload.fantasy_name}`)
+const setAdressIfCep = ({ commit }, payload) => {
+  commit('SET_FORMDATA', payload)
 }
+
+
 
 const cleanErrors = function ({ commit }) {
   commit('SET_ERRORS', '')
@@ -70,5 +93,6 @@ export default {
   update,
   show,
   cleanAdressItem,
-  setAdressDialog
+  setAdressDialog,
+  setAdressIfCep
 }

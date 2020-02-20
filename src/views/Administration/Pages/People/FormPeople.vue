@@ -52,7 +52,6 @@
                 v-mask="['##.###.###-#', '########-##']"
                 v-model="formData.ie_rg"
                 :label="ieRg"
-                required
               ></v-text-field>
               <strong class="red--text">{{errors.ie_rg}}</strong>
             </v-col>
@@ -75,6 +74,7 @@
               </v-row>
             </v-col>
           </v-row>
+    
           <span v-if="formData.id">
             <list-adress :peopleId='formData.id'></list-adress>
           </span>
@@ -110,33 +110,26 @@
       </span>
     </admin-blade>
 
-    <v-row justify="center">
-      <v-dialog v-model="adressDialog" max-width="900px">
-        <v-card class="adress-card">
-          <form-adress :peopleId="formData.id"></form-adress>
-        </v-card>
-      </v-dialog>
-    </v-row>
+
   </span>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import listAdress from "@/views/Administration/Pages/People/components/Adress/listAdress";
-import formAdress from "@/views/Administration/Pages/People/components/Adress/formAdress";
+
 import AdminBlade from "@/views/Administration/Layouts/Blade";
 import { dateFormatDMA } from "@/utils/dateFunctions";
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
 import { mask } from "vue-the-mask";
 import { removeOverCaractersForNumbers } from "@/utils/masksFunctions";
-// import { toUpperCaseFirstWord } from "@/utils/textFunctions";
+import { toUpperCaseFirstLetter } from "@/utils/textFunctions";
 
 export default {
   directives: { mask },
 
   components: {
     AdminBlade,
-    formAdress,
     listAdress
   },
   data: function() {
@@ -155,8 +148,7 @@ export default {
   },
   computed: {
     ...mapState("People", ["errors"]),
-    ...mapState("People", ["formData"]),
-    ...mapState("Adress", ["adressDialog"])
+    ...mapState("People", ["formData"])
   },
   methods: {
     ...mapActions("People", ["save"]),
@@ -164,14 +156,16 @@ export default {
     ...mapActions("People", ["show"]),
     ...mapActions("People", ["cleanErrors"]),
     ...mapActions("People", ["cleanItem"]),
-    ...mapActions("Adress", ["cleanAdressItem"]),
-     ...mapActions("Adress", ["cleanAdressList"]),
+    ...mapActions("Adress", ["cleanAdressList"]),
 
     rulesFunction(name, lengthNeed) {
       return rulesValidationFunction(name, lengthNeed);
     },
 
     SaveUpdateWithMask(saveOrUpdate) {
+      this.formData.fantasy_name = toUpperCaseFirstLetter(this.formData.fantasy_name)
+      this.formData.fantasy_name = toUpperCaseFirstLetter(this.formData.fantasy_name)
+
       if (this.formData.ie_rg) {
         this.formData.ie_rg = removeOverCaractersForNumbers(
           this.formData.ie_rg
@@ -213,13 +207,7 @@ export default {
   destroyed() {
     this.cleanErrors()
     this.cleanItem()
-    this.cleanAdressItem()
     this.cleanAdressList()
   }
 };
 </script>
-<style scoped>
-.adress-card {
-  padding: 10px;
-}
-</style>

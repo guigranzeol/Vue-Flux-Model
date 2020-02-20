@@ -5,6 +5,7 @@ const toastName = 'O Cliente'
 import axios from 'axios'
 import { baseApiUrl, catchError } from "@/global";
 import router from '@/router/index'
+import { toastAlert } from "@/utils/Alerts/toast";
 
 import {indexFunction,  updateFunction, showFunction} from "@/utils/DefaultCrud/defaultsFunctions";
 
@@ -20,11 +21,13 @@ export const save  = function ({commit},  payload) {
         let id = res.data.id
         sessionStorage.setItem(
           "toastMsg",
-           `${toastName +' '+ payload.fantasy_name} foi cadastrado com sucesso!`
+           `${toastName +' '+ payload.fantasy_name} foi cadastrado com sucesso, Cadastre Endereço e Telefones Agora!`
+           
         );
+        toastAlert('success')
         commit('SET_ERRORS', '')
         router.push({ path: '/form-people'+'/'+id});
-        show({commit}, id)
+        show({commit}, id)        
       } else {
         commit('SET_ERRORS', res.data.errors)
       }
