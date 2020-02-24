@@ -1,23 +1,7 @@
 <template>
   <span>
-    <admin-blade>
+    <admin-blade iconBtnTop="mdi-plus" routeBtnTop="/form-user">
         <h1 class="title-topo">Lista de Usuarios</h1>
-        <span class='buttons-topo'>
-                <v-btn
-                  to='/form-user'
-                  title='Novo Usuario'
-                  color="green"
-                  fab
-                  small
-                  dark
-                  absolute
-                  top
-                  right
-                  style="z-index: 100;"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-        </span>
         <v-text-field
           class="default-search"
           v-model="search"
@@ -27,18 +11,16 @@
         ></v-text-field>
         <v-data-table class="default-table"
           :headers="headers"
-          :items="data"
+          :items="list"
           :search="search"
           :footer-props="footer"
           >
-
-            <template v-slot:item.nivel="{ item }">
-              <v-chip :color="getColor(item.admin, item.store)" dark>{{ getname(item.admin, item.store) }}</v-chip>
+          <template v-slot:item.nivel="{ item }">
+              <span  class="mr-2" title="Edit">{{getAcessType(item.user_type)}}</span>
             </template>
             <template v-slot:item.action="{ item }">
-              <v-icon small class="mr-2" @click="editItem(item.id)" title="Edit">mdi-pencil</v-icon>
+              <v-icon small class="mr-2" @click="edit(item.id)" title="Edit">mdi-pencil</v-icon>
             </template>
-            
           </v-data-table>
     </admin-blade>
   </span>
@@ -46,13 +28,8 @@
 
 <script>
 import AdminBlade from "@/views/Administration/Layouts/Blade";
-import { baseApiUrl } from "@/global";
-import axios from "axios";
-import Vue from 'vue';
-import VueToast from 'vue-toast-notification';
-import 'vue-toast-notification/dist/index.css';
-
-Vue.use(VueToast);
+import { mapActions, mapState } from 'vuex';
+import { toastAlert } from "@/utils/Alerts/toast";
 
 export default {
   components: {
@@ -61,13 +38,12 @@ export default {
   data: function() {
     return {
       search: "",
-      titleTop: "",
       headers: [
         { text: "ID", value: "id", class: "black--text" },
         { text: "NOME", value: "name", class: "black--text" },
-        { text: "E-MAIL", value: "email", class: "black--text" },
-        { text: "NIVEL ACESSO", value: "nivel", class: "black--text" },
-        { text: "CLIENTE", value: "fantasy_name", class: "black--text" },        
+        { text: "E-MAIL", value: "email", class: "black--text" }, 
+        { text: "Nivel", value: "nivel", class: "black--text" },    
+        { text: "Adm", value: "admin", class: "black--text" },  
         {
           text: "AÇÕES",
           value: "action",
@@ -79,47 +55,30 @@ export default {
         itemsPerPageText: 'Itens por página',
         itemsPerPageAllText: 'Todos'
       },
-      msgServer: [],
-      data: []
+      msgServer: []
     };
   },
+  computed:{
+    ...mapState('User', ["list", "userType"]),
+  },
   methods: {
-    loadUsers() {
-      this.msgServer = {};
-      this.titleTop = "Lista Usuarios";
-      const url = `${baseApiUrl}/users/index`;
-      axios.post(url).then(res => {
-        this.data = res.data;
-      });
-    },
+    ...mapActions('User', ["setList"]),
 
-    editItem(item) {
+    edit(item) {
       this.$router.push(`form-user/${item}`);
     },
 
-    getname(adm, store) {
-      if (adm == true) return "Admin";
-      else if (store == true) return "Loja";
-      else return "Usuario";
-    },
-    
-    getColor(adm, store) {
-      if (adm == true) return "blue-grey";
-      else if (store == true) return "blue";
-      else return "purple";
+    getAcessType(value){
+      let response = this.userType.filter( function(item){
+         return item.value == value
+      })      
+      return response[0].name
     },
   },
 
   mounted() {
-    this.loadUsers();
-
-    if (sessionStorage.msgSave) {
-      Vue.$toast.open({
-        message: sessionStorage.msgSave,
-        type: "success"
-      });
-      sessionStorage.removeItem("msgSave");
-    }
+    this.setList()
+    toastAlert("success");
   }
 };
 </script>

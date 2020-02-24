@@ -1,14 +1,9 @@
 <template>
   <span>
     <admin-blade iconBtnTop="mdi-store" routeBtnTop="/people">
-      <span v-if='id && !formData.id'>
-        <div class="d-flex justify-center align-center mt-5 spiner-default">
-          <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
-        </div>
-      </span>
-      <span v-else class="default-form-bg">
+      <span class="default-form-bg">
         <v-form class="mt-5 default-form" ref="form" v-model="valid">
-          <h1 class="title-topo">Formulario de Cliente</h1>
+          <h1 class="title-topo">Dados Cliente</h1>
           <v-row>
             <v-col sm="2" cols="12">
               <v-switch
@@ -79,10 +74,7 @@
               </v-row>
             </v-col>
           </v-row>
-    
-          <span v-if="formData.id">
-            <list-adress :peopleId='formData.id'></list-adress>
-          </span>
+
           <v-row>
             <v-col sm="3" cols="12">
               <p v-if="formData.updated_at">
@@ -111,18 +103,22 @@
             class="mr-4"
             @click="SaveUpdateWithMask('save')"
           >Salvar Usuario</v-btn>
+          <hr class="mt-5" />
+          <list-phone v-if="formData.id" :peopleId="formData.id"></list-phone>
+          <hr v-if="formData.id" class="mt-5" />
+          <span v-if="formData.id">
+            <list-adress :peopleId="formData.id"></list-adress>
+          </span>
         </v-form>
       </span>
     </admin-blade>
-
-
   </span>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import listAdress from "@/views/Administration/Pages/People/components/Adress/listAdress";
-
+import listPhone from "@/views/Administration/Pages/People/components/Phones/listPhone";
 import AdminBlade from "@/views/Administration/Layouts/Blade";
 import { dateFormatDMA } from "@/utils/dateFunctions";
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
@@ -135,7 +131,8 @@ export default {
 
   components: {
     AdminBlade,
-    listAdress
+    listAdress,
+    listPhone
   },
   data: function() {
     return {
@@ -162,14 +159,19 @@ export default {
     ...mapActions("People", ["cleanErrors"]),
     ...mapActions("People", ["cleanItem"]),
     ...mapActions("Adress", ["cleanAdressList"]),
+    ...mapActions("Phone", ["cleanPhoneList"]),
 
     rulesFunction(name, lengthNeed) {
       return rulesValidationFunction(name, lengthNeed);
     },
 
     SaveUpdateWithMask(saveOrUpdate) {
-      this.formData.fantasy_name = toUpperCaseFirstLetter(this.formData.fantasy_name)
-      this.formData.fantasy_name = toUpperCaseFirstLetter(this.formData.fantasy_name)
+      this.formData.fantasy_name = toUpperCaseFirstLetter(
+        this.formData.fantasy_name
+      );
+      this.formData.fantasy_name = toUpperCaseFirstLetter(
+        this.formData.fantasy_name
+      );
 
       if (this.formData.ie_rg) {
         this.formData.ie_rg = removeOverCaractersForNumbers(
@@ -210,9 +212,10 @@ export default {
     }
   },
   destroyed() {
-    this.cleanErrors()
-    this.cleanItem()
-    this.cleanAdressList()
+    this.cleanErrors();
+    this.cleanItem();
+    this.cleanAdressList();
+    this.cleanPhoneList()
   }
 };
 </script>

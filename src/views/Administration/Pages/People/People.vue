@@ -2,15 +2,11 @@
   <span>
     <admin-blade iconBtnTop="mdi-plus" routeBtnTop="/form-people">
       <h1 class="title-topo">Lista de Clientes</h1>
-
+        
       <v-text-field class="default-search" v-model="search" label="Busca" single-line hide-details></v-text-field>
 
-      <span v-if='!list[0]'>
-        <div class="d-flex justify-center align-center mt-5 spiner-default">
-          <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
-        </div>
-      </span>
-      <span v-else>
+   
+      <span>
         <v-data-table
           class="default-table"
           :headers="headers"
@@ -54,7 +50,6 @@ export default {
         itemsPerPageText: "Itens por página",
         itemsPerPageAllText: "Todos"
       },
-      msgServer: []
     };
   },
 

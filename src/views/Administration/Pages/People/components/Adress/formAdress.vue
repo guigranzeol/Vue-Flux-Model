@@ -1,11 +1,6 @@
 <template>
   <span>
-    <span v-if="adressId && !formData.id">
-      <div class="d-flex justify-center">
-        <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
-      </div>
-    </span>
-    <span v-else class="main">
+    <span class="main">
       <h2>Formulario Endereço</h2>
       <v-row>
         <v-col sm="2" cols="12">
@@ -88,8 +83,7 @@ import { rulesValidationFunction } from "@/utils/rulesFunctions";
 export default {
   directives: { mask },
   props: {
-    peopleId: Number,
-    adressId: Number
+    peopleId: Number
   },
 
   data: function() {

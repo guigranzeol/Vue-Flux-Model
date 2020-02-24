@@ -32,3 +32,7 @@ https://github.com/guigranzeol/Laravel-From-Vue-Flux
 
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+mapquest
+print node
+vue-i18n

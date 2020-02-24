@@ -30,7 +30,7 @@
             <v-icon class="icons-list" >mdi-store</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="titles-list">Pessoas</v-list-item-title>
+            <v-list-item-title class="titles-list">Clientes</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         </router-link>
@@ -61,9 +61,10 @@
             fixed
             class="actions-btn"
           >
-            <v-icon>{{iconBtnTop}}</v-icon>
+            <v-icon class="actions-btn-icon">{{iconBtnTop}}</v-icon>
           </v-btn>
         </span>
+        <spinner v-show='spinnerFullScreen'/>
       <slot></slot>
       </v-container>
     </v-content>
@@ -76,11 +77,19 @@
 </template>
 
 <script>
+import Spinner from "@/views/Administration/Layouts/Components/spinner";
+import { mapState } from "vuex";
   export default {
     props: {
       iconBtnTop: String,
       routeBtnTop: String,
     },
+  components: {
+    Spinner
+  },
+  computed:{
+    ... mapState("Spinner" ,["spinnerFullScreen"]) 
+  },
     data: () => ({
       drawer: null,
     }),

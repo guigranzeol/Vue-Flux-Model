@@ -1,4 +1,4 @@
-import Test from '@/views/Administration/Pages/Default/index'
+
 import Home from '@/views/Administration/Pages/Home/Home'
 import Users from '@/views/Administration/Pages/User/Users'
 import FormUser from '@/views/Administration/Pages/User/FormUser'
@@ -6,11 +6,7 @@ import People from '@/views/Administration/Pages/People/People'
 import FormPeople from '@/views/Administration/Pages/People/FormPeople'
 
 const routes = [
-    {
-        path: '/test',
-        props: true,
-        component: Test
-    },
+
     {
         path: '/people',
         props: true,

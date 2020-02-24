@@ -1,19 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import Spinner from '@/views/Administration/Layouts/Components/store'
 import People from '@/views/Administration/Pages/People/store'
 import User from '@/views/Administration/Pages/User/store'
-import Default from '@/views/Administration/Pages/Default/store'
 import Adress from '@/views/Administration/Pages/People/components/Adress/store'
-
+import Phone from '@/views/Administration/Pages/People/components/Phones/store'
 
 Vue.use(Vuex)
 
 const modules = {
+    Spinner,
     People,
     User,
-    Default,
-    Adress
+    Adress,
+    Phone
 }
 
 export default new Vuex.Store({

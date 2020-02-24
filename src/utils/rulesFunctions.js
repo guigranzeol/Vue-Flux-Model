@@ -5,6 +5,6 @@ export const rulesValidationFunction = function(name, lengthNeed){
       v => (v && v.length >= lengthNeed) || `Por favor insira ${name}  válido`
     ]
     }else{
-      return [v => !!v || "Por favor insira" + name]
+      return [v => !!v || "Por favor insira " + name]
     }
   }

@@ -1,36 +1,37 @@
 
-const defaultPath = '/adress'
+const defaultPath = '/phone'
 import { toastAlert } from "@/utils/Alerts/toast";
 import { indexFunction, showFunction } from "@/utils/DefaultCrud/defaultsFunctions";
 import axios from 'axios'
 import { baseApiUrl, catchError } from "@/global";
 import { spinnerChoice } from '@/utils/DefaultCrud/spinnerRules'
 
+const setList = ({ commit }, people_id) => {
+  indexFunction(commit, defaultPath, `people_id=${people_id}`)
+}
+
+const setPhoneDialog = function ({ commit }, value) {
+  commit('SET_PHONEDIALOG', value)
+}
 
 const save = function ({ commit }, payload) {
-
   spinnerChoice('modal', true)
-
   axios.post(`${baseApiUrl + defaultPath}/save`, payload)
     .then(res => {
       if (res.data.status == 201) {
         sessionStorage.setItem(
           "toastMsg",
-           `Endereço cadastrado com Sucesso !!!`           
+           `Telefone cadastrado com Sucesso !!!`           
         );
         commit('SET_FORMDATA',{
           id: null,
-          street: null,
-          cep: null,
-          neighborhood: null,
-          city: null,
-          state: null,
-          active: null,
+          type: null,
           note: null,
-          people_id: null
+          people_id: null,
+          number: null
         })
         commit('SET_ERRORS', '')
-        commit('SET_ADRESSDIALOG', false)
+        commit('SET_PHONEDIALOG', false)
         setList({commit}, payload.people_id)
         toastAlert('success')
       } else {
@@ -40,35 +41,31 @@ const save = function ({ commit }, payload) {
     .catch(e => {
       catchError(e)
     })
-
     .finally(() => {spinnerChoice('modal', false)})
+}
 
+const show = function ({ commit }, payload) {
+  showFunction(commit, defaultPath, payload, 'modal')
 }
 
 const update = function ({ commit }, payload) {
-
   spinnerChoice('modal', true)
-
   axios.post(`${baseApiUrl + defaultPath}/update`, payload)
   .then(res => {
     if (res.data.status == 202) {
       sessionStorage.setItem(
         "toastMsg",
-         `Endereço atualizado com Sucesso !!!`           
+         `Telefone atualizado com Sucesso !!!`           
       );
       commit('SET_FORMDATA', {
         id: null,
-        street: null,
-        cep: null,
-        neighborhood: null,
-        city: null,
-        state: null,
-        active: null,
+        type: null,
         note: null,
-        people_id: null
+        people_id: null,
+        number: null
       })
       commit('SET_ERRORS', '')
-      commit('SET_ADRESSDIALOG', false)
+      commit('SET_PHONEDIALOG', false)
       setList({commit}, payload.people_id)
       toastAlert('success')
     } else {
@@ -80,60 +77,31 @@ const update = function ({ commit }, payload) {
   })
   .finally(() => {spinnerChoice('modal', false)})
 }
-
-const setAdressDialog = function ({ commit }, value) {
-  commit('SET_ADRESSDIALOG', value)
-}
-
-const cleanAdressList = function ({ commit }) {
-  commit('SET_LIST', '')
-}
-
-const cleanAdressItem = function ({ commit }) {
+const cleanPhoneItem = function ({ commit }) {
   commit('SET_FORMDATA', {
     id: null,
-    street: null,
-    cep: null,
-    neighborhood: null,
-    city: null,
-    state: null,
-    active: null,
+    type: null,
     note: null,
-    people_id: null
+    people_id: null,
+    number: null
   })
 }
 
-const setList = ({ commit }, people_id) => {
-  indexFunction(commit, defaultPath, `people_id=${people_id}`)
+const cleanPhoneList = function ({ commit }) {
+  commit('SET_LIST', '')
 }
-
-const show = function ({ commit }, payload) {
-  showFunction(commit, defaultPath, payload,  'modal')
-}
-
-const setAdressIfCep = ({ commit }, payload) => {
-  commit('SET_FORMDATA', payload)
-}
-
-
 
 const cleanErrors = function ({ commit }) {
   commit('SET_ERRORS', '')
 }
 
-
-
-
-
-
 export default {
-  cleanAdressList,
+  cleanPhoneList,
   setList,
   save,
   cleanErrors,
   update,
   show,
-  cleanAdressItem,
-  setAdressDialog,
-  setAdressIfCep
+  cleanPhoneItem,
+  setPhoneDialog,
 }

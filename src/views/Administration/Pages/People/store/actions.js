@@ -6,15 +6,17 @@ import axios from 'axios'
 import { baseApiUrl, catchError } from "@/global";
 import router from '@/router/index'
 import { toastAlert } from "@/utils/Alerts/toast";
+import store from '@/store/index'
 
 import {indexFunction,  updateFunction, showFunction} from "@/utils/DefaultCrud/defaultsFunctions";
 
 
-const setList = ({ commit }) => {     
-  indexFunction(commit, defaultPath)
+const setList = ({ commit }) => {    
+  indexFunction(commit, defaultPath, null, 'full')   
 } 
 
 export const save  = function ({commit},  payload) {
+  store.dispatch('Spinner/setSpinnerFullScreen', true)
   axios.post(`${baseApiUrl + defaultPath}/save`, payload)
     .then(res => {
       if (res.data.status == 201) {
@@ -34,15 +36,18 @@ export const save  = function ({commit},  payload) {
     })
     .catch(e => {
       catchError(e);
-    });
+    })
+    .finally(() => { 
+      store.dispatch('Spinner/setSpinnerFullScreen', false)
+    })
 }
 
 const update = function({commit}, payload) {
-  updateFunction(commit, defaultPath, payload, `${toastName +' '+ payload.fantasy_name}`)
+  updateFunction(commit, defaultPath, payload, `${toastName +' '+ payload.fantasy_name}`, 'full')
 }
 
 const show = function({commit}, payload) {
-  showFunction(commit, defaultPath, payload)
+  showFunction(commit, defaultPath, payload, 'full')
 }
 
 const cleanErrors = function({commit}){
