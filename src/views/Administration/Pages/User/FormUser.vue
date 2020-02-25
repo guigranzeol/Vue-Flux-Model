@@ -61,7 +61,7 @@
               <v-switch color="amber darken-4" v-model="formData.admin" label="Admin"></v-switch>
             </v-col>
             <v-col sm="2" cols="12">
-              <v-switch color="amber darken-4" v-if="formData.id" v-model="formData.active" label="active"></v-switch>
+              <v-switch color="amber darken-4" v-if="formData.idse " v-model="formData.active" label="active"></v-switch>
             </v-col>
           </v-row>
           <v-row>

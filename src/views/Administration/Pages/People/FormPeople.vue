@@ -74,7 +74,18 @@
               </v-row>
             </v-col>
           </v-row>
-
+          <v-row>
+            <img :src="test" alt />
+            <v-col sm="12" cols="12">
+              <label for="img">
+                <strong>Logo</strong>
+              </label>
+              <br />
+              <br />
+              <input id="img" type="file" @change="uploadImg" />
+              <v-textarea name id cols="30" rows="10" :value="test"></v-textarea>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col sm="3" cols="12">
               <p v-if="formData.updated_at">
@@ -124,6 +135,7 @@ import { dateFormatDMA } from "@/utils/dateFunctions";
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
 import { mask } from "vue-the-mask";
 import { removeOverCaractersForNumbers } from "@/utils/masksFunctions";
+import { saveImage } from "@/utils/Images/base64Converters";
 import { toUpperCaseFirstLetter } from "@/utils/textFunctions";
 
 export default {
@@ -136,6 +148,7 @@ export default {
   },
   data: function() {
     return {
+      test: "asdfasdf",
       newAdress: false,
       ieRg: "I. Estadual",
       cpfCnpjLabel: "CNPJ",
@@ -161,8 +174,11 @@ export default {
     ...mapActions("Adress", ["cleanAdressList"]),
     ...mapActions("Phone", ["cleanPhoneList"]),
 
+    uploadImg(e) {
+      this.test = saveImage(e)
+    },
     rulesFunction(name, lengthNeed) {
-      return rulesValidationFunction(name, lengthNeed);
+      rulesValidationFunction(name, lengthNeed);
     },
 
     SaveUpdateWithMask(saveOrUpdate) {
@@ -215,7 +231,7 @@ export default {
     this.cleanErrors();
     this.cleanItem();
     this.cleanAdressList();
-    this.cleanPhoneList()
+    this.cleanPhoneList();
   }
 };
 </script>
