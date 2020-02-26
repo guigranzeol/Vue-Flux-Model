@@ -2,7 +2,6 @@
 
 export const saveImage = function(e){
   let file = e.target.files || e.dataTransfer.files;
-  let img = ''
   if (!file.length) {
     return;
   }
@@ -12,6 +11,4 @@ export const saveImage = function(e){
   };
 
   reader.readAsDataURL(file[0]);
-
-  return img
   }

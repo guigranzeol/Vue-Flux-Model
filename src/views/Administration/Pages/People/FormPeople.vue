@@ -135,7 +135,7 @@ import { dateFormatDMA } from "@/utils/dateFunctions";
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
 import { mask } from "vue-the-mask";
 import { removeOverCaractersForNumbers } from "@/utils/masksFunctions";
-import { saveImage } from "@/utils/Images/base64Converters";
+// import { saveImage } from "@/utils/Images/base64Converters";
 import { toUpperCaseFirstLetter } from "@/utils/textFunctions";
 
 export default {
@@ -174,9 +174,7 @@ export default {
     ...mapActions("Adress", ["cleanAdressList"]),
     ...mapActions("Phone", ["cleanPhoneList"]),
 
-    uploadImg(e) {
-      this.test = saveImage(e)
-    },
+  
     rulesFunction(name, lengthNeed) {
       rulesValidationFunction(name, lengthNeed);
     },
