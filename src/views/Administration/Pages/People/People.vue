@@ -25,7 +25,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import AdminBlade from "@/views/Administration/Layouts/Blade";
+import AdminBlade from "@/Layouts/Blade";
 import { toastAlert } from "@/utils/Alerts/toast";
 
 export default {

@@ -22,7 +22,7 @@
 
 <script>
 import { toastAlert } from "@/utils/Alerts/toast";
-import AdminBlade from "@/views/Administration/Layouts/Blade";
+import AdminBlade from "@//Layouts/Blade";
 import { mapState, mapActions } from "vuex";
 
 

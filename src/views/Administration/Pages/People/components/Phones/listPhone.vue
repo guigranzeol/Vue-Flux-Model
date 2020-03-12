@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import spinnerDialog from "@/views/Administration/Layouts/Components/spinnerDialog";
+import spinnerDialog from "@/Layouts/Components/spinnerDialog";
 import formPhone from "@/views/Administration/Pages/People/components/Phones/formPhone";
 import { mapActions, mapState } from "vuex";
 import { transformTypeInName } from "@/utils/phoneFunctions";

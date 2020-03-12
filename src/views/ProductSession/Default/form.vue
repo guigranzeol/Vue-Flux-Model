@@ -39,7 +39,7 @@
 
 <script>
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
-import AdminBlade from "@/views/Administration/Layouts/Blade";
+import AdminBlade from "@/Layouts/Blade";
 import { mapState, mapActions } from "vuex";
 
 export default {

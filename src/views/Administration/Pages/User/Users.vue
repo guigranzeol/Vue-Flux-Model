@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import AdminBlade from "@/views/Administration/Layouts/Blade";
+import AdminBlade from "@/Layouts/Blade";
 import { mapActions, mapState } from 'vuex';
 import { toastAlert } from "@/utils/Alerts/toast";
 

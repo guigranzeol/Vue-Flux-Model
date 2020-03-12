@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import AdminBlade from '@/views/Administration/Layouts/Blade'
+import AdminBlade from '@/Layouts/Blade'
 
 export default {
   

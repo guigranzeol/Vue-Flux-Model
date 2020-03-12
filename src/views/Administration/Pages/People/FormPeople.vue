@@ -75,18 +75,6 @@
             </v-col>
           </v-row>
           <v-row>
-            <img :src="test" alt />
-            <v-col sm="12" cols="12">
-              <label for="img">
-                <strong>Logo</strong>
-              </label>
-              <br />
-              <br />
-              <input id="img" type="file" @change="uploadImg" />
-              <v-textarea name id cols="30" rows="10" :value="test"></v-textarea>
-            </v-col>
-          </v-row>
-          <v-row>
             <v-col sm="3" cols="12">
               <p v-if="formData.updated_at">
                 <strong>Ultima Modificação:</strong>
@@ -130,7 +118,7 @@
 import { mapActions, mapState } from "vuex";
 import listAdress from "@/views/Administration/Pages/People/components/Adress/listAdress";
 import listPhone from "@/views/Administration/Pages/People/components/Phones/listPhone";
-import AdminBlade from "@/views/Administration/Layouts/Blade";
+import AdminBlade from "@/Layouts/Blade";
 import { dateFormatDMA } from "@/utils/dateFunctions";
 import { rulesValidationFunction } from "@/utils/rulesFunctions";
 import { mask } from "vue-the-mask";
@@ -148,7 +136,6 @@ export default {
   },
   data: function() {
     return {
-      test: "asdfasdf",
       newAdress: false,
       ieRg: "I. Estadual",
       cpfCnpjLabel: "CNPJ",

@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import spinnerDialog from "@/views/Administration/Layouts/Components/spinnerDialog";
+import spinnerDialog from "@/Layouts/Components/spinnerDialog";
 import formAdress from "@/views/Administration/Pages/People/components/Adress/formAdress";
 import { mapState, mapActions } from "vuex";
 

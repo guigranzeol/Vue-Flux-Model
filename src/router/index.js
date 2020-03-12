@@ -1,11 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AdmRoutes from '@/views/Administration/Router'
+import Home from '@/views/Home/Home'
+
 
 Vue.use(VueRouter)
 
 const routes = [
    ...AdmRoutes,
+
+   {
+    path: '/',
+    props: true,
+    component: Home
+  },
 
 ]
 
